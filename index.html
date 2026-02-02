@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeoCascade Music</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <i class="fas fa-satellite-dish"></i>
+                <h1>NeoCascade<span class="neon">Music</span></h1>
+            </div>
+            <p class="tagline">Upload. Rename. Cascade. 🔊</p>
+        </header>
+
+        <!-- Auth Status -->
+        <div class="auth-status">
+            <div id="userInfo">
+                <span id="userEmail">Not signed in</span>
+                <button id="logoutBtn" class="neon-btn small logout">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+            <div id="authButtons" style="display: none;">
+                <button id="showLoginBtn" class="neon-btn small">
+                    <i class="fas fa-sign-in-alt"></i> Sign In
+                </button>
+            </div>
+        </div>
+
+        <!-- Login Modal -->
+        <div id="loginModal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <h2><i class="fas fa-satellite-dish"></i> NeoCascade Music</h2>
+                <div class="form-group">
+                    <input type="email" id="emailInput" placeholder="Email">
+                </div>
+                <div class="form-group">
+                    <input type="password" id="passwordInput" placeholder="Password">
+                </div>
+                <div class="modal-buttons">
+                    <button id="loginBtn" class="neon-btn">
+                        <i class="fas fa-sign-in-alt"></i> Sign In
+                    </button>
+                    <button id="signupBtn" class="neon-btn">
+                        <i class="fas fa-user-plus"></i> Sign Up
+                    </button>
+                    <button id="closeModalBtn" class="neon-btn cancel">
+                        <i class="fas fa-times"></i> Cancel
+                    </button>
+                </div>
+                <p class="demo-note">Use test credentials or register new account</p>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <main class="main">
+            <!-- Upload Section -->
+            <section class="upload-section">
+                <div class="upload-box" id="uploadBox">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <h3>Drop your track here</h3>
+                    <p>MP3, WAV, FLAC up to 50MB</p>
+                    <input type="file" id="fileInput" accept="audio/*" hidden>
+                    <button class="neon-btn" id="uploadBtn">
+                        <i class="fas fa-file-upload"></i> Browse Files
+                    </button>
+                    <div class="progress-container">
+                        <div class="progress-bar" id="progressBar"></div>
+                    </div>
+                    <p class="file-info" id="fileInfo"></p>
+                </div>
+
+                <!-- Rename Input -->
+                <div class="rename-box" id="renameBox" style="display: none;">
+                    <i class="fas fa-edit"></i>
+                    <h3>Rename Track</h3>
+                    <input type="text" id="renameInput" placeholder="Enter new track name...">
+                    <div class="rename-buttons">
+                        <button class="neon-btn save" id="saveNameBtn">
+                            <i class="fas fa-check"></i> Save
+                        </button>
+                        <button class="neon-btn cancel" id="cancelRenameBtn">
+                            <i class="fas fa-times"></i> Cancel
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Visualization Canvas -->
+            <section class="viz-section">
+                <div class="viz-header">
+                    <h2><i class="fas fa-wave-square"></i> Live Waveform</h2>
+                    <button class="neon-btn small" id="toggleVizBtn">
+                        <i class="fas fa-play"></i> Play Visualization
+                    </button>
+                </div>
+                <canvas id="waveCanvas"></canvas>
+                <div class="viz-controls">
+                    <div class="control">
+                        <label>Wave Color:</label>
+                        <input type="color" id="waveColor" value="#00ff88">
+                    </div>
+                    <div class="control">
+                        <label>Speed:</label>
+                        <input type="range" id="waveSpeed" min="1" max="10" value="3">
+                    </div>
+                </div>
+            </section>
+
+            <!-- Track List -->
+            <section class="tracks-section">
+                <h2><i class="fas fa-list-music"></i> Your Cascade</h2>
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Search tracks...">
+                    <i class="fas fa-search"></i>
+                </div>
+                <div class="tracks-container" id="tracksContainer">
+                    <!-- Tracks will load here -->
+                    <div class="track-item placeholder">
+                        <div class="track-icon">
+                            <i class="fas fa-headphones"></i>
+                        </div>
+                        <div class="track-info">
+                            <h3 class="track-name">No tracks yet</h3>
+                            <p class="track-meta">Sign in and upload your first track!</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Player -->
+        <div class="player">
+            <div class="player-info">
+                <div class="now-playing">
+                    <i class="fas fa-play"></i>
+                    <div>
+                        <h4 id="nowPlayingName">No track selected</h4>
+                        <p id="nowPlayingArtist">NeoCascade</p>
+                    </div>
+                </div>
+                <audio id="audioPlayer" controls></audio>
+                <div class="volume">
+                    <i class="fas fa-volume-up"></i>
+                    <input type="range" id="volumeSlider" min="0" max="100" value="70">
+                </div>
+            </div>
+            <div class="player-visual">
+                <div class="visual-bar"></div>
+                <div class="visual-bar"></div>
+                <div class="visual-bar"></div>
+                <div class="visual-bar"></div>
+                <div class="visual-bar"></div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>NeoCascade Music v1.0 • Made with <i class="fas fa-heart neon"></i> for the cascade</p>
+            <p class="supabase-status">Supabase: <span id="supabaseStatus">Connecting...</span></p>
+        </footer>
+    </div>
+
+    <!-- Supabase SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <!-- Main JS -->
+    <script src="script.js"></script>
+</body>
+</html>
